@@ -4,10 +4,9 @@
 int main() {
     int nthreads, tid;
 
-    omp_set_num_threads(8);
+    //omp_set_num_threads(8);
 
-    // Iniciar una región paralela
-    #pragma omp parallel private(tid, nthreads)
+    #pragma omp parallel private(tid) num_threads(8)
     {
         // Obtener el ID del hilo actual
         tid = omp_get_thread_num();
@@ -36,8 +35,8 @@ int main() {
             {
                 printf("Thread %d, of %d, computes section 4\n", tid, nthreads);
             }
-        } // Fin de las secciones
-    } // Fin de la región paralela
+        } 
+    } 
 
     return 0;
 }
