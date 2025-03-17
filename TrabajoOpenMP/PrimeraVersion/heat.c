@@ -91,7 +91,7 @@ int main()
   for (it = 1; it <= itmax; it++)
   {
     dphimax = 0.0;
-#   pragma omp parallel for private(i, dphi) reduction(max:dphimax)
+#   pragma omp parallel for private(i, k, dphi) reduction(max:dphimax)
     for (k = 1; k < kmax; k++)
     {
       for (i = 1; i < imax; i++)

@@ -92,7 +92,7 @@ int main()
   for (it = 1; it <= itmax; it++)
   {
     dphimax = 0.0;
-#   pragma omp parallel for collapse(2) schedule(dynamic) private(i, dphi) reduction(max:dphimax)
+#   pragma omp parallel for collapse(2) schedule(static,2) private(i, k, dphi) 
     for (k = 1; k < kmax; k++)
     {
       for (i = 1; i < imax; i++)
@@ -100,7 +100,9 @@ int main()
         dphi = (phi[i+1][k] + phi[i-1][k] - 2.0 * phi[i][k]) * dy2i
               + (phi[i][k+1] + phi[i][k-1] - 2.0 * phi[i][k]) * dx2i;
         dphi = dphi * dt;
-        dphimax = max(dphimax, dphi);
+        #pragma omp critical
+          dphimax = max(dphimax, dphi);
+
         phin[i][k] = phi[i][k] + dphi;
       }
     }

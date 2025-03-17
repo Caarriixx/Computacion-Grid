@@ -56,7 +56,7 @@ int main()
   dy2i = 1.0 / dy2;
   dt = min(dx2, dy2) / 4.0;
 
-  #pragma omp parallel for collapse(2) schedule(static) private(i, k)
+  #pragma omp parallel for collapse(2) schedule(static, 4) private(i, k)
   for (k = 0; k < kmax; k++)
   {
     for (i = 1; i < imax; i++)
@@ -94,14 +94,16 @@ int main()
     dphimax = 0.0;
     
     #pragma omp parallel for collapse(2) schedule(static,4) private(i, k, dphi) reduction(max:dphimax)
-    for (i = imax - 1; i > 0; i--) // Invertimos el bucle para mejorar acceso a memoria
+    for (k = 1; k < kmax; k++)
     {
-      for (k = kmax - 1; k > 0; k--)
+      for (i = 1; i < imax; i++)
       {
         dphi = (phi[i+1][k] + phi[i-1][k] - 2.0 * phi[i][k]) * dy2i
               + (phi[i][k+1] + phi[i][k-1] - 2.0 * phi[i][k]) * dx2i;
         dphi = dphi * dt;
+
         dphimax = max(dphimax, dphi);
+
         phin[i][k] = phi[i][k] + dphi;
       }
     }
