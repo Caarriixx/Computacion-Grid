@@ -15,7 +15,7 @@
 #  define kmax  20
 #endif 
 #ifndef itmax 
-#  define itmax  15000
+#  define itmax  150000
 #endif 
 
 #ifndef prtrows
@@ -94,9 +94,9 @@ int main()
   for (it=1;it<=itmax;it++)
   {
     dphimax=0.;
-    for (i=1;i<imax;i++)
+    for (i = 1;i < imax; i++)
     {
-      for (k=1;k<kmax;k++)
+      for (k = 1 ;k < kmax;k++)
       {
         dphi=(phi[i+1][k]+phi[i-1][k]-2.*phi[i][k])*dy2i
             +(phi[i][k+1]+phi[i][k-1]-2.*phi[i][k])*dx2i;
@@ -106,9 +106,9 @@ int main()
       }
     }
 /* save values */
-    for (k=1;k<kmax;k++)
+    for (i=1;i<imax;i++)
     {
-      for (i=1;i<imax;i++)
+      for (k=1;k<kmax;k++)
       {
 	phi[i][k]=phin[i][k];
       }
